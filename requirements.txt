@@ -1,0 +1,7 @@
+streamlit
+ydata-profiling
+streamlit-pandas-profiling
+boto3
+pandas
+polars
+python-dotenv

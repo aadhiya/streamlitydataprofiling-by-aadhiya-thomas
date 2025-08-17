@@ -1,0 +1,39 @@
+# Ignore environment variable files
+.env
+.env.*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# macOS system files
+.DS_Store
+
+# VS Code settings folder
+.vscode/
+
+# Python coverage reports
+htmlcov/
+.coverage
+
+# Streamlit cache folder
+.streamlit/
+
+# Ignore Python egg files
+*.egg-info/
+dist/
+build/
