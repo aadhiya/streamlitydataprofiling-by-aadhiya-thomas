@@ -14,6 +14,10 @@ load_dotenv()
 st.title("YData Profiling on S3 Sampled Data")
 
 # ---- S3 config ----
+# ... imports and setup as before ...
+
+st.title("YData Profiling on S3 Sampled Data")
+
 st.sidebar.header("AWS S3 Data Source")
 bucket = st.sidebar.text_input("S3 Bucket", value="your-bucket")
 key = st.sidebar.text_input("S3 Key (file path in bucket)", value="your-data.csv")
@@ -37,31 +41,32 @@ if st.sidebar.button("Profile S3 data sample"):
             csv_sample = "\n".join([header] + sample)
             csv_buffer = io.StringIO(csv_sample)
             df = pl.read_csv(csv_buffer).to_pandas()
-
+            st.session_state["profile_df"] = df  # <--- store in session state
             st.success(f"Sampled {len(df)} rows and {len(df.columns)} columns from S3 object '{key}' in bucket '{bucket}'.")
             st.dataframe(df.head(10), use_container_width=True)
-
-            # COLUMN SELECTION FOR PROFILING
-            st.markdown("#### Select columns to include in the profile report (optional):")
-            selected_cols = st.multiselect(
-                "Choose columns to send to ydata-profiling (default: all):",
-                list(df.columns),
-                default=list(df.columns)
-            )
-            if selected_cols:
-                profile_df = df[selected_cols]
-            else:
-                profile_df = df
-
-            if st.button("Generate Profile Report"):
-                st.write("Running profiling...")
-                profile = ProfileReport(profile_df, title="YData Profiling Report", explorative=True)
-                st_profile_report(profile)
-
         except Exception as e:
             st.error(f"Error: {e}")
     else:
         st.warning("Please enter both S3 bucket and key.")
+
+# Now provide the profiling UI if DataFrame is loaded, regardless of button state
+if "profile_df" in st.session_state:
+    df = st.session_state["profile_df"]
+    st.markdown("#### Select columns to include in the profile report (optional):")
+    default_cols = list(df.columns)[:10] if len(df.columns) > 10 else list(df.columns)
+    selected_cols = st.multiselect(
+        "Choose columns to send to ydata-profiling (default: first 10):",
+        list(df.columns),
+        default=default_cols
+    )
+    if st.button("Generate Profile Report"):
+        if not selected_cols:
+            st.warning("Please select at least one column for profiling.")
+        else:
+            profile_df = df[selected_cols]
+            st.write("Running profiling...")
+            profile = ProfileReport(profile_df, title="YData Profiling Report", explorative=True)
+            st_profile_report(profile)
 
 st.markdown(
 """
@@ -69,6 +74,8 @@ st.markdown(
 **How it works:**
 - The app reads just a random sample of the large S3 file (not the whole file!).
 - Lets you select columns to profile for faster results!
+- Only the first 10 columns are included by default, add more as you need.
 - Supports CSV files only. Adjust code for other formats if needed.
 """
 )
+
