@@ -97,6 +97,14 @@ Make sure to configure AWS credentials securely in the environment variables on 
 - Lets you choose columns and create an interactive profile report for exploratory data analysis.
 
 ---
+## The deliverables achieved here
+
+-Viewing the profiling report.  
+
+I have used S3 feature in AWS to upload my large dataset of 154mb,"https://www.kaggle.com/datasets/mishra5001/credit-card?select=application_data.csv".
+
+Then I have just sampled random 1000 rows from this s3 bucket in this project, The free tier of render.com doesn't allow me to upload file more than 100mb to s3 i get axisos 502 error,so i uploaded the file manually to S3. Also note that we made ydataprofiling separate because the Streamlitcommunity cloud has python version 3.13 and we are not able to change that version,the version reset option is disabled from july 2025,so we used render.com to make a live URL of this.
+
 
 ## License
 
