@@ -105,7 +105,7 @@ I have used S3 feature in AWS to upload my large dataset of 154mb,"https://www.k
 
 Then I have just sampled random 1000 rows from this s3 bucket in this project, The free tier of render.com doesn't allow me to upload file more than 100mb to s3 i get axisos 502 error,so i uploaded the file manually to S3. Also note that we made ydataprofiling separate because the Streamlitcommunity cloud has python version 3.13 and we are not able to change that version,the version reset option is disabled from july 2025,so we used render.com to make a live URL of this.
 
-
+Live URL : https://streamlit-ydataprofiling-by-aadhiya.onrender.com/
 ## License
 
 MIT License
